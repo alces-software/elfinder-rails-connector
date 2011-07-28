@@ -1,0 +1,18 @@
+# Alces Software Engine Base #
+
+Use this repository to boot strap new engine developments.
+
+Replace:
+
+ 1. config/application.rb - AlcesEngineBase -> namespace for your engine
+ 2. Rakefile - alces-engine-base -> gem name for your engine
+
+Modify:
+
+ 1. files in lib/ to reflect the name and namespace for your engine
+
+Include:
+
+ 1. in the Gemfile in the destination rails app (host app) add an entry to pull in your engine, eg.:
+
+        gem "alces-engine", '0', :require => "alces_engine", :path => "../alces_engine"
