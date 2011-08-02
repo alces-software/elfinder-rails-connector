@@ -29,7 +29,7 @@ gem 'actionpack',         RAILS_VERSION, :require => 'action_pack'
 gem 'actionmailer',       RAILS_VERSION, :require => 'action_mailer'
 gem 'railties',           RAILS_VERSION, :require => 'rails'
 
-gem 'dm-rails',           '1.1.2.mjtko1', :git => "git://github.com/mjtko/dm-rails.git"
+gem 'dm-rails',           '1.1.1', :git => "git://github.com/datamapper/dm-rails.git"
 gem 'dm-active_model',    '1.1.2.mjtko1', :git => "git://github.com/mjtko/dm-active_model.git"
 gem 'dm-sqlite-adapter',  DM_VERSION
 
