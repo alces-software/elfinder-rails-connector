@@ -1,7 +1,7 @@
 #==============================================================================
 # Copyright (C) 2007-2011 Stephen F Norledge & Alces Software Ltd.
 #
-# This file is part of <ENGINE>.
+# This file is part of <ENGINE>, part of the Symphony suite.
 #
 # <ENGINE> is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published by
@@ -30,7 +30,7 @@ gem 'actionmailer',       RAILS_VERSION, :require => 'action_mailer'
 gem 'railties',           RAILS_VERSION, :require => 'rails'
 
 gem 'dm-rails',           '1.1.1', :git => "git://github.com/datamapper/dm-rails.git"
-gem 'dm-active_model',    '1.1.2.mjtko1', :git => "git://github.com/mjtko/dm-active_model.git"
+gem 'dm-active_model',    '1.1.1', :git => "git://github.com/datamapper/dm-active_model.git"
 gem 'dm-sqlite-adapter',  DM_VERSION
 
 gem 'dm-serializer',	  DM_VERSION
