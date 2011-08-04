@@ -1,1 +1,17 @@
+# For MacOS:
+.DS_Store
+
+# For TextMate
+*.tmproj
+tmtags
+
+# For emacs:
 *~
+\#*
+.\#*
+
+# For vim:
+*.swp
+
+# mjt - Best practice is that, for gems, we ignore Gemfile.lock
+Gemfile.lock
