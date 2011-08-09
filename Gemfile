@@ -29,6 +29,8 @@ gem 'actionpack',         RAILS_VERSION, :require => 'action_pack'
 gem 'actionmailer',       RAILS_VERSION, :require => 'action_mailer'
 gem 'railties',           RAILS_VERSION, :require => 'rails'
 
+gem 'dm-core',		  DM_VERSION, :git => 'git://github.com/mjtko/dm-core.git',
+    			  	      :branch => 'non-default-repo-fix'
 gem 'dm-rails',           '1.1.1', :git => "git://github.com/datamapper/dm-rails.git"
 gem 'dm-active_model',    '1.1.1', :git => "git://github.com/datamapper/dm-active_model.git"
 gem 'dm-sqlite-adapter',  DM_VERSION
@@ -36,8 +38,7 @@ gem 'dm-sqlite-adapter',  DM_VERSION
 gem 'dm-serializer',	  DM_VERSION
 gem 'dm-migrations',      DM_VERSION
 gem 'dm-types',           DM_VERSION
-gem 'dm-validations',     DM_VERSION, :git => 'git://github.com/mjtko/dm-validations.git',
-    			  	      :branch => 'splat-for-property-patch'
+gem 'dm-validations',     DM_VERSION
 gem 'dm-constraints',     DM_VERSION
 gem 'dm-transactions',    DM_VERSION
 gem 'dm-aggregates',      DM_VERSION
