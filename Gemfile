@@ -36,7 +36,8 @@ gem 'dm-sqlite-adapter',  DM_VERSION
 gem 'dm-serializer',	  DM_VERSION
 gem 'dm-migrations',      DM_VERSION
 gem 'dm-types',           DM_VERSION
-gem 'dm-validations',     DM_VERSION
+gem 'dm-validations',     DM_VERSION, :git => 'git://github.com/mjtko/dm-validations.git',
+    			  	      :branch => 'splat-for-property-patch'
 gem 'dm-constraints',     DM_VERSION
 gem 'dm-transactions',    DM_VERSION
 gem 'dm-aggregates',      DM_VERSION
