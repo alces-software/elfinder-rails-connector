@@ -23,16 +23,7 @@ ARRIBA_PATH=Rails.root.join('..','arriba','lib')
 load File.join(ARRIBA_PATH,'arriba.rb')
 
 class ElfinderController < ::ActionController::Base
-  class << self
-    def volumes
-      @volumes ||= [
-        Arriba::Volume::Directory.new('scratch1','Home','/tmp/scratch'),
-        Arriba::Volume::Directory.new('scratch2','Scratch 2','/tmp/scratch2'),
-        Arriba::Volume::Directory.new('home','markt Home','/Users/markt'),
-        Arriba::Volume::Directory.new('docs','Documents','/Users/markt/Documents')
-      ]
-    end
-
+  module ClassMethods
     def render_file_response(controller,r)
       controller.headers['Content-Disposition'] = "#{r.disposition}; filename=\"#{r.filename}\"" 
       if controller.request.env['HTTP_USER_AGENT'] =~ /msie/i
@@ -45,8 +36,10 @@ class ElfinderController < ::ActionController::Base
     end
   end
 
+  extend ClassMethods
+
   def api
-    data = Arriba::execute(self.class.volumes,params)
+    data = Arriba::execute(volumes,params)
     case data
     when Hash
       render :json => data
@@ -56,5 +49,12 @@ class ElfinderController < ::ActionController::Base
       render :json => {:error => "Unsupported data type: #{data.class.name}"}
     end
   end
+
+  private
+  def volumes
+    ElfinderRails::Configuration::eval_config(self)
+    ElfinderRails::Configuration.instance.volumes
+  end
+
 end
 

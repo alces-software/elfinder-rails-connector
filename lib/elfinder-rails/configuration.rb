@@ -18,9 +18,42 @@
 #
 # Some rights reserved, see LICENSE.txt.
 #==============================================================================
-require 'rails'
+require 'singleton'
 
 module ElfinderRails
-  require 'elfinder-rails/engine' if defined?(Rails)
-  autoload :Configuration, 'elfinder-rails/configuration'
+  class Configuration
+    include Singleton
+
+    module ClassMethods
+      def config_file
+        Rails.root.join('config','volumes.rb')
+      end
+
+      def load_config
+        if Rails.env.production?
+          @config ||= IO.read(config_file)
+        else
+          @config = IO.read(config_file)
+        end
+      end
+
+      def eval_config(context)
+        context.instance_eval(load_config)
+      end
+
+      def configure(&block)
+        block.call(instance)
+      end
+    end
+
+    extend ClassMethods
+
+    def volumes
+      @volumes ||= []
+    end
+
+    def volume(type, *args)
+      volumes << Arriba::Volume::const_get(type.to_s.camelize).new(*args)
+    end
+  end
 end
