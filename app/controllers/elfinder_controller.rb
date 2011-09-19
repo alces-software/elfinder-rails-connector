@@ -32,17 +32,26 @@ class ElfinderController < ::ActionController::Base
         Arriba::Volume::Directory.new('docs','Documents','/Users/markt/Documents')
       ]
     end
+
+    def render_file_response(controller,r)
+      controller.headers['Content-Disposition'] = "#{r.disposition}; filename=\"#{r.filename}\"" 
+      if controller.request.env['HTTP_USER_AGENT'] =~ /msie/i
+        controller.headers['Pragma'] = 'public'
+        controller.headers["Content-type"] = r.mimetype
+        controller.headers['Cache-Control'] = 'no-cache, must-revalidate, post-check=0, pre-check=0'
+        controller.headers['Expires'] = "0" 
+      end
+      controller.render :text => r.io.read, :content_type => r.mimetype
+    end
   end
 
-  delegate :volumes, :to => self
-
   def api
-    data = Arriba::execute(volumes,params)
+    data = Arriba::execute(self.class.volumes,params)
     case data
     when Hash
       render :json => data
-    when String
-      render :text => data
+    when Arriba::FileResponse
+      self.class.render_file_response(self,data)
     else
       render :json => {:error => "Unsupported data type: #{data.class.name}"}
     end
