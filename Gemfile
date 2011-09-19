@@ -24,3 +24,5 @@ RAILS_VERSION = '>= 3.1.0'
 
 gem 'activesupport',      RAILS_VERSION, :require => 'active_support'
 gem 'actionpack',         RAILS_VERSION, :require => 'action_pack'
+
+gem 'arriba', :path => '../arriba'
