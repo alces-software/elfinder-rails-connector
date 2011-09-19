@@ -42,6 +42,7 @@ module ElfinderRails
       end
 
       def configure(&block)
+        instance.volumes.clear
         block.call(instance)
       end
     end
