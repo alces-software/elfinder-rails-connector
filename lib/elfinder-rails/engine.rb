@@ -1,9 +1,9 @@
 #==============================================================================
 # Copyright (C) 2007-2011 Stephen F Norledge & Alces Software Ltd.
 #
-# This file is part of <ENGINE>.
+# This file is part of elfinder-rails.
 #
-# <ENGINE> is free software: you can redistribute it and/or modify
+# elfinder-rails is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
@@ -18,9 +18,8 @@
 #
 # Some rights reserved, see LICENSE.txt.
 #==============================================================================
-require 'dm-rails'
-
-# If you want the logs displayed you have to do this before the call to setup
-DataMapper::Logger.new("#{Rails.root}/log/dm.log", :debug)
-
-
+module ElfinderRails
+  class Engine < Rails::Engine
+    engine_name :elfinder_rails
+  end
+end
