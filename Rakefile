@@ -18,7 +18,6 @@
 #
 # Some rights reserved, see LICENSE.txt.
 #==============================================================================
-require 'rake/dsl_definition'
 begin
   require "jeweler"
   Jeweler::Tasks.new do |gem|

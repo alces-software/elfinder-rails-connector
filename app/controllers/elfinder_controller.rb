@@ -19,16 +19,17 @@
 # Some rights reserved, see LICENSE.txt.
 #==============================================================================
 
-load 'lib/elfinder.rb'
+ARRIBA_PATH=Rails.root.join('..','arriba','lib')
+load File.join(ARRIBA_PATH,'arriba.rb')
 
 class ElfinderController < ::ActionController::Base
   class << self
     def volumes
       @volumes ||= [
-        Elfinder::Volume::Directory.new('l1','Home','/tmp/scratch'),
-        Elfinder::Volume::Directory.new('l2','Scratch 2','/tmp/scratch2'),
-        Elfinder::Volume::Directory.new('h','markt Home','/Users/markt'),
-#        Elfinder::Volume::Directory.new('l2','Documents','/Users/markt/Documents')
+        Arriba::Volume::Directory.new('l1','Home','/tmp/scratch'),
+        Arriba::Volume::Directory.new('l2','Scratch 2','/tmp/scratch2'),
+        Arriba::Volume::Directory.new('h','markt Home','/Users/markt'),
+#        Arriba::Volume::Directory.new('l2','Documents','/Users/markt/Documents')
       ]
     end
   end
@@ -104,7 +105,7 @@ class ElfinderController < ::ActionController::Base
     # accepts a targets[] array
     errors = []
     results = params[:targets].map do |target|
-      v, p = Elfinder::Routing::route(target)
+      v, p = Arriba::Routing::route(target)
       v = volumes.find{|vol| vol.id == v}
       result = v.rm(p)
       STDERR.puts "THE RESULT IS: #{result}"
@@ -137,7 +138,7 @@ class ElfinderController < ::ActionController::Base
     # accepts a targets[] array
     errors = []
     results = params[:targets].map do |target|
-      v, p = Elfinder::Routing::route(target)
+      v, p = Arriba::Routing::route(target)
       v = volumes.find{|vol| vol.id == v}
       result = v.duplicate(p)
       if result == true
@@ -166,10 +167,10 @@ class ElfinderController < ::ActionController::Base
     errors = []
     added = []
     params[:targets].each do |target|
-      src_v, src_p = Elfinder::Routing::route(target)
+      src_v, src_p = Arriba::Routing::route(target)
       src_v = volumes.find{|vol| vol.id == src_v}
 
-      dest_v, dest_p = Elfinder::Routing::route(params[:dst])
+      dest_v, dest_p = Arriba::Routing::route(params[:dst])
       STDERR.puts "dest_v is: #{dest_v.inspect}"
       dest_v = volumes.find{|vol| vol.id == dest_v}
       STDERR.puts "dest_v is: #{dest_v.inspect}"
@@ -194,10 +195,10 @@ class ElfinderController < ::ActionController::Base
     added = []
     removed = []
     params[:targets].each do |target|
-      src_v, src_p = Elfinder::Routing::route(target)
+      src_v, src_p = Arriba::Routing::route(target)
       src_v = volumes.find{|vol| vol.id == src_v}
 
-      dest_v, dest_p = Elfinder::Routing::route(params[:dst])
+      dest_v, dest_p = Arriba::Routing::route(params[:dst])
       dest_v = volumes.find{|vol| vol.id == dest_v}
 
       result = src_v.move(src_p,dest_v,dest_p)
@@ -297,7 +298,7 @@ class ElfinderController < ::ActionController::Base
 
   def decoded_volume_and_path
     @decoded_volume_and_path ||= if params[:target].present?
-                                   Elfinder::Routing::route(params[:target])
+                                   Arriba::Routing::route(params[:target])
                                  else
                                    [volumes.first.id,'/']
                                  end
