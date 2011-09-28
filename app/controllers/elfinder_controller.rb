@@ -19,8 +19,8 @@
 # Some rights reserved, see LICENSE.txt.
 #==============================================================================
 
-ARRIBA_PATH=Rails.root.join('..','arriba','lib')
-load File.join(ARRIBA_PATH,'arriba.rb')
+#ARRIBA_PATH=Rails.root.join('..','arriba','lib')
+#load File.join(ARRIBA_PATH,'arriba.rb')
 
 class ElfinderController < ::ActionController::Base
   module ClassMethods
@@ -36,25 +36,27 @@ class ElfinderController < ::ActionController::Base
     end
   end
 
-  extend ClassMethods
-
-  def api
-    data = Arriba::execute(volumes,params)
-    case data
-    when Hash
-      render :json => data
-    when Arriba::FileResponse
-      self.class.render_file_response(self,data)
-    else
-      render :json => {:error => "Unsupported data type: #{data.class.name}"}
+  module Base
+    def api
+      data = Arriba::execute(volumes,params)
+      case data
+      when Hash
+        render :json => data
+      when Arriba::FileResponse
+        self.class.render_file_response(self,data)
+      else
+        render :json => {:error => "Unsupported data type: #{data.class.name}"}
+      end
+    end
+    
+    private
+    def volumes
+      ElfinderRails::Configuration::eval_config(self)
+      ElfinderRails::Configuration.instance.volumes
     end
   end
 
-  private
-  def volumes
-    ElfinderRails::Configuration::eval_config(self)
-    ElfinderRails::Configuration.instance.volumes
-  end
-
+  extend ClassMethods
+  include Base
 end
 
