@@ -821,7 +821,8 @@ window.elFinder = function(node, opts) {
                 if (notify.type && notify.cnt) {
                         timeout = setTimeout(function() {
                                 self.notify(notify);
-                            console.log(dfrd);
+// mjt - XXX
+//                            console.log(dfrd);
                                 dfrd.always(function() {
                                         notify.cnt = -(parseInt(notify.cnt)||0);
                                         self.notify(notify);
@@ -7633,6 +7634,10 @@ elFinder.prototype.commands.open = function() {
                                 url = url + (url.indexOf('?') === -1 ? '?' : '&')
                                         + (fm.oldAPI ? 'cmd=open&current='+file.phash : 'cmd=file')
                                         + '&target=' + file.hash;
+			        // XXX - mjt - XXX
+                                $.each(fm.options.customData, function(key, val) {
+			            url = url + '&' + encodeURIComponent(key) + '=' + encodeURIComponent(val);
+				});
                         }
                         
                         w = '';
