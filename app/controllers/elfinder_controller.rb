@@ -18,45 +18,24 @@
 #
 # Some rights reserved, see LICENSE.txt.
 #==============================================================================
-
-#ARRIBA_PATH=Rails.root.join('..','arriba','lib')
-#load File.join(ARRIBA_PATH,'arriba.rb')
-
 class ElfinderController < ::ActionController::Base
-  module ClassMethods
-    def render_file_response(controller,r)
-      controller.headers['Content-Disposition'] = "#{r.disposition}; filename=\"#{r.filename}\"" 
-      if controller.request.env['HTTP_USER_AGENT'] =~ /msie/i
-        controller.headers['Pragma'] = 'public'
-        controller.headers["Content-type"] = r.mimetype
-        controller.headers['Cache-Control'] = 'no-cache, must-revalidate, post-check=0, pre-check=0'
-        controller.headers['Expires'] = "0" 
-      end
-      controller.render :text => r.io.read, :content_type => r.mimetype
-    end
-  end
-
   module Base
     def api
-      data = Arriba::execute(volumes,params)
+      ctx = ElfinderRails::Context.new(request.env,params)
+      data = Arriba.execute(ElfinderRails.volumes(ctx),params)
       case data
       when Hash
         render :json => data
       when Arriba::FileResponse
-        self.class.render_file_response(self,data)
+        ElfinderRails.file_headers(data,request.env).each do |k,v|
+          headers[k] = v
+        end
+        render :text => data.io.read, :content_type => data.mimetype
       else
         render :json => {:error => "Unsupported data type: #{data.class.name}"}
       end
     end
-    
-    private
-    def volumes
-      ElfinderRails::Configuration::eval_config(self)
-      ElfinderRails::Configuration.instance.volumes
-    end
   end
 
-  extend ClassMethods
   include Base
 end
-

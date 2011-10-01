@@ -8,18 +8,18 @@ Gem::Specification.new do |s|
   s.version = "0.0.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.date = %q{2011-09-19}
+  s.date = %q{2011-10-01}
   s.extra_rdoc_files = [
     "LICENSE.txt",
     "README.mkd"
   ]
   s.files = [
+    "app/assets/stylesheets/elfinder.css.scss",
     "app/controllers/elfinder_controller.rb",
-    "config/application.rb",
-    "config/boot.rb",
-    "config/routes.rb",
     "lib/elfinder-rails.rb",
-    "lib/elfinder-rails/engine.rb"
+    "lib/elfinder-rails/configuration.rb",
+    "lib/elfinder-rails/engine.rb",
+    "lib/elfinder-rails/server.rb"
   ]
   s.require_paths = [%q{lib}]
   s.rubygems_version = %q{1.8.6}
@@ -31,15 +31,21 @@ Gem::Specification.new do |s|
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<activesupport>, [">= 3.1.0"])
       s.add_runtime_dependency(%q<actionpack>, [">= 3.1.0"])
+      s.add_runtime_dependency(%q<json>, [">= 0"])
+      s.add_runtime_dependency(%q<rack>, [">= 0"])
       s.add_runtime_dependency(%q<arriba>, [">= 0"])
     else
       s.add_dependency(%q<activesupport>, [">= 3.1.0"])
       s.add_dependency(%q<actionpack>, [">= 3.1.0"])
+      s.add_dependency(%q<json>, [">= 0"])
+      s.add_dependency(%q<rack>, [">= 0"])
       s.add_dependency(%q<arriba>, [">= 0"])
     end
   else
     s.add_dependency(%q<activesupport>, [">= 3.1.0"])
     s.add_dependency(%q<actionpack>, [">= 3.1.0"])
+    s.add_dependency(%q<json>, [">= 0"])
+    s.add_dependency(%q<rack>, [">= 0"])
     s.add_dependency(%q<arriba>, [">= 0"])
   end
 end
