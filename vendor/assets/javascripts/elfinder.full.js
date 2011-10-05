@@ -7635,6 +7635,8 @@ elFinder.prototype.commands.open = function() {
                                         + (fm.oldAPI ? 'cmd=open&current='+file.phash : 'cmd=file')
                                         + '&target=' + file.hash;
 			        // XXX - mjt - XXX
+			    url = url + '&download=1';
+			        // XXX - mjt - XXX
                                 $.each(fm.options.customData, function(key, val) {
 			            url = url + '&' + encodeURIComponent(key) + '=' + encodeURIComponent(val);
 				});
@@ -7647,7 +7649,8 @@ elFinder.prototype.commands.open = function() {
                                 w = 'width='+(parseInt(s[0])+20) + ',height='+(parseInt(s[1])+20);
                         }
 
-                        if (!window.open(url, '_blank', w + ',top=50,left=50,scrollbars=yes,resizable=yes')) {
+		    /* XXX - mjt - changed this to _top from _blank */
+                        if (!window.open(url, '_top', w + ',top=50,left=50,scrollbars=yes,resizable=yes')) {
                                 return dfrd.reject('errPopup');
                         }
                 }
