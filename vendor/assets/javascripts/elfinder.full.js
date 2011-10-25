@@ -589,6 +589,22 @@ window.elFinder = function(node, opts) {
                         : file ? cwdOptions.path + (file.hash == cwd ? '' : cwdOptions.separator+file.name) : '';
         }
         
+    // XXX - mjt - XXX
+    this.fallbackUrl = function(file,download) {
+	url = ''
+        url = this.options.url;
+        url = url + (url.indexOf('?') === -1 ? '?' : '&')
+            + (this.oldAPI ? 'cmd=open&current='+file.phash : 'cmd=file')
+                                        + '&target=' + file.hash;
+			        // XXX - mjt - XXX
+			    url = url + '&download=' + download;
+			        // XXX - mjt - XXX
+                                $.each(this.options.customData, function(key, val) {
+			            url = url + '&' + encodeURIComponent(key) + '=' + encodeURIComponent(val);
+				});
+	return url;
+                        }
+
         /**
          * Return file url if set
          * 
@@ -606,7 +622,8 @@ window.elFinder = function(node, opts) {
                         path = path.replace(cwdOptions.separator, '/');
                         return cwdOptions.url + path.substr(path.indexOf('/')+1);
                 }
-                return '';
+    // XXX - mjt - XXX
+            return this.fallbackUrl(file,0);
         }
         
         /**
