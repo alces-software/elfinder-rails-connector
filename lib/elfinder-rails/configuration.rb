@@ -53,8 +53,8 @@ module ElfinderRails
       @volumes ||= []
     end
 
-    def volume(type, *args)
-      volumes << Arriba::Volume::const_get(type.to_s.camelize).new(*args)
+    def volume(volume)
+      volumes << volume
     end
   end
 end
