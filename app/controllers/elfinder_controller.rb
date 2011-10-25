@@ -21,7 +21,7 @@
 class ElfinderController < ::ActionController::Base
   module Base
     def api
-      ctx = ElfinderRails::Context.new(request.env,params)
+      ctx = ElfinderRails::Context.new(request.env, params, session[:session_id])
       data = Arriba.execute(ElfinderRails.volumes(ctx),params)
       case data
       when Hash
@@ -34,6 +34,8 @@ class ElfinderController < ::ActionController::Base
       else
         render :json => {:error => "Unsupported data type: #{data.class.name}"}
       end
+    rescue
+      render :json => {:error => $!.message}
     end
   end
 
