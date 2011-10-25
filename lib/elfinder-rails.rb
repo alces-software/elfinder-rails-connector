@@ -25,7 +25,7 @@ module ElfinderRails
   autoload :Server, 'elfinder-rails/server'
   autoload :Configuration, 'elfinder-rails/configuration'
 
-  class Context < Struct.new(:env,:params); end
+  class Context < Struct.new(:env,:params,:session_id); end
 
   class << self
     def file_headers(data, env)
