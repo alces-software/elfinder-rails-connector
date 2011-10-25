@@ -6,7 +6,6 @@ module ElfinderRails
     class << self
       def run
         Rack::Chunked.new(Rack::ContentLength.new(ElfinderRails::Server.new))
-#        ElfinderRails::Server.new
       end
     end
 
@@ -15,19 +14,27 @@ module ElfinderRails
       # `env` Hash and returns a three item tuple with the status code,
       # headers, and body.
       def call(env)
- #       STDERR.puts Thread.current.backtrace.join("\n")
         # Mark session as "skipped" so no `Set-Cookie` header is set
         env['rack.session.options'] ||= {}
         env['rack.session.options'][:defer] = true
         env['rack.session.options'][:skip] = true
         
         params = Rack::Request.new(env).params.symbolize_keys!
-        ctx = Context.new(env,params)
+        session_id = (session = env['rack.session']) && session['session_id']
+        ctx = Context.new(env,params,session_id)
         data = Arriba::execute(ElfinderRails.volumes(ctx),params)
         handle_data(env,data)
       rescue
-        STDERR.puts "ERROR: #{$!.message}\n#{$!.backtrace.join}"
-        [ 500, {}, "Error:  #{$!.message}"]
+        begin
+          STDERR.puts "ERROR: #{$!.message}\n#{$!.backtrace.join("\n")}"
+          # error responses are returned as 200 responses so elfinder
+          # can present the error condition to the user
+          ok_response({:error => $!.message}.to_json,{'Content-Type' => 'application/json'})
+        rescue
+          # finally fallback to 500 error
+          STDERR.puts "ERROR: #{$!.message}\n#{$!.backtrace.join("\n")}"
+          [500, {'Content-Type' => 'text/plain'}, ["Error: #{$!.message}"]]
+        end
       end
       
       def handle_data(env,data)
@@ -50,7 +57,6 @@ module ElfinderRails
       private
       # Returns a 200 OK response tuple
       def ok_response(body, headers = {})
-        STDERR.puts body.class.name
         body = [body] unless body.respond_to?(:each)
         [ 200, headers, body ]
       end
