@@ -591,18 +591,18 @@ window.elFinder = function(node, opts) {
         
     // XXX - mjt - XXX
     this.fallbackUrl = function(file,download) {
-	url = ''
+        url = ''
         url = this.options.url;
         url = url + (url.indexOf('?') === -1 ? '?' : '&')
             + (this.oldAPI ? 'cmd=open&current='+file.phash : 'cmd=file')
                                         + '&target=' + file.hash;
-			        // XXX - mjt - XXX
-			    url = url + '&download=' + download;
-			        // XXX - mjt - XXX
+                                // XXX - mjt - XXX
+                            url = url + '&download=' + download;
+                                // XXX - mjt - XXX
                                 $.each(this.options.customData, function(key, val) {
-			            url = url + '&' + encodeURIComponent(key) + '=' + encodeURIComponent(val);
-				});
-	return url;
+                                    url = url + '&' + encodeURIComponent(key) + '=' + encodeURIComponent(val);
+                                });
+        return url;
                         }
 
         /**
@@ -6724,7 +6724,12 @@ elFinder.prototype.commands.download = function() {
                 base += base.indexOf('?') === -1 ? '?' : '&';
                         
                 for (i = 0; i < files.length; i++) {
-                        var iframe = $('<iframe style="display:none" src="'+base + 'cmd=file&target=' + files[i].hash+'&download=1'+'"/>')
+                    // XXX - mjt
+                    url_suffix = ''
+                                $.each(fm.options.customData, function(key, val) {
+                                    url_suffix = url_suffix + '&' + encodeURIComponent(key) + '=' + encodeURIComponent(val);
+                                });
+                        var iframe = $('<iframe style="display:none" src="'+base + 'cmd=file&target=' + files[i].hash+'&download=1'+url_suffix+'"/>')
                                 .appendTo('body')
                                 .load(function() {
                                         setTimeout(function() {
@@ -7651,12 +7656,12 @@ elFinder.prototype.commands.open = function() {
                                 url = url + (url.indexOf('?') === -1 ? '?' : '&')
                                         + (fm.oldAPI ? 'cmd=open&current='+file.phash : 'cmd=file')
                                         + '&target=' + file.hash;
-			        // XXX - mjt - XXX
-			    url = url + '&download=1';
-			        // XXX - mjt - XXX
+                                // XXX - mjt - XXX
+                            url = url + '&download=1';
+                                // XXX - mjt - XXX
                                 $.each(fm.options.customData, function(key, val) {
-			            url = url + '&' + encodeURIComponent(key) + '=' + encodeURIComponent(val);
-				});
+                                    url = url + '&' + encodeURIComponent(key) + '=' + encodeURIComponent(val);
+                                });
                         }
                         
                         w = '';
@@ -7666,7 +7671,7 @@ elFinder.prototype.commands.open = function() {
                                 w = 'width='+(parseInt(s[0])+20) + ',height='+(parseInt(s[1])+20);
                         }
 
-		    /* XXX - mjt - changed this to _top from _blank */
+                    /* XXX - mjt - changed this to _top from _blank */
                         if (!window.open(url, '_top', w + ',top=50,left=50,scrollbars=yes,resizable=yes')) {
                                 return dfrd.reject('errPopup');
                         }
