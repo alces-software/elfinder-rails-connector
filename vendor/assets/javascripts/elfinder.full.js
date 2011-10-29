@@ -1319,7 +1319,8 @@ window.elFinder = function(node, opts) {
         } else {
                 this.transport.upload = $.proxy(this.uploads.iframe, this);
         }
-        
+    /* XXX - mjt */
+    this.dragUpload = this.dragUpload && this.options.dragUploadAllow;
         /**
          * Alias for this.trigger('error', {error : 'message'})
          *
