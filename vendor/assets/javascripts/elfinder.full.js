@@ -1418,8 +1418,9 @@ window.elFinder = function(node, opts) {
                 })
                 .bind('rm', function(e) {
                         var play  = beeper.canPlayType && beeper.canPlayType('audio/wav; codecs="1"');
-                
-                        play && play != '' && play != 'no' && $(beeper).html('<source src="./sounds/rm.wav" type="audio/wav">')[0].play()
+		        /* mjt - XXX - pull sounds from options */
+                    var sound = self.options.sounds && self.options.sounds.rm;
+                        play && play != '' && play != 'no' && sound && $(beeper).html('<source src="' + sound + '" type="audio/wav">')[0].play()
                 })
                 
                 ;
@@ -2976,6 +2977,14 @@ elFinder.prototype.options = {
                 files  : ['getfile', '|','open', 'quicklook', '|', 'download', '|', 'edit', '|', 'copy', 'cut', 'paste', 'duplicate', '|', 'rm', '|', 'archive', 'extract', '|', 'info']
         },
 
+    /** Sounds config
+     *
+     * @type Object
+     */
+    sounds : {
+	rm : './sounds/rm.wav'
+    },
+
         /**
          * Debug config
          *
@@ -2983,6 +2992,7 @@ elFinder.prototype.options = {
          */
         // debug : true
         debug : ['error', 'warning']
+
 }
 
 
@@ -7573,7 +7583,8 @@ elFinder.prototype.commands.mkfile = function() {
         this.disableOnSearch = true;
         this.updateOnSelect  = false;
         this.mime            = 'text/plain';
-        this.prefix          = 'untitled folder.txt';
+        /* mjt - XXX- untitled _file_ not untitled _folder_! */
+        this.prefix          = 'untitled file.txt';
         this.exec            = $.proxy(this.fm.res('mixin', 'make'), this);
         
         this.getstate = function() {
