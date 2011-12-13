@@ -1248,6 +1248,11 @@ embed.elfinder-quicklook-preview-audio {
 	background:image-url('elfinder/toolbar.png')  no-repeat;
 }
 
+/* XXX - mjt - XXX */
+.elfinder-button-icon-submit { 
+	background:image-url('elfinder/btn-submit.png')  no-repeat;
+}
+
 /* buttons icons */
 .elfinder-button-icon-home      { background-position: 0 0;  }
 .elfinder-button-icon-back      { background-position: 0 -112px; }

@@ -576,6 +576,16 @@ window.elFinder = function(node, opts) {
                 return parents;
         }
         
+    /* XXX - mjt - pulled in from later version - XXX */
+    this.path2array = function(hash) {
+	var file, path = [];
+	while (hash && (file = files[hash]) && file.hash) {
+	    path.unshift(file.name);
+	    hash = file.phash
+	}
+	return path;
+    }
+
         /**
          * Return file path
          * 
@@ -586,7 +596,7 @@ window.elFinder = function(node, opts) {
                 var file = files[hash];
                 return file.path 
                         ? file.path
-                        : file ? cwdOptions.path + (file.hash == cwd ? '' : cwdOptions.separator+file.name) : '';
+                : this.path2array(hash).join(cwdOptions.separator); /* cwdOptions.path + (file.hash == cwd ? '' : cwdOptions.separator+file.name) : ''; */
         }
         
     // XXX - mjt - XXX
@@ -2752,7 +2762,9 @@ elFinder.prototype.options = {
         commands : [
                 'open', 'reload', 'home', 'up', 'back', 'forward', 'getfile', 'quicklook', 
                 'download', 'rm', 'duplicate', 'rename', 'mkdir', 'mkfile', 'upload', 'copy', 
-                'cut', 'paste', 'edit', 'extract', 'archive', 'search', 'info', 'view', 'help'
+            'cut', 'paste', 'edit', 'extract', 'archive', 'search', 'info', 'view', 'help',
+/* XXX -  mjt */
+	    'submit'
         ],
         
         /**
@@ -3715,6 +3727,8 @@ if (elFinder && elFinder.prototype && typeof(elFinder.prototype.i18) == 'object'
                         'cmdup'        : 'Go to parent directory',
                         'cmdupload'    : 'Upload files',
                         'cmdview'      : 'View',
+		    /* XXX - mjt - XXX */
+                        'cmdsubmit'    : 'Submit as job',
                         
                         /*********************************** buttons ***********************************/ 
                         'btnClose'  : 'Close',
@@ -6749,6 +6763,52 @@ elFinder.prototype.commands.download = function() {
                                 });
                 }
                 return dfrd.resolve(hashes);
+        }
+
+}
+
+/*
+ * File: XXX
+ */
+
+/**
+ * @class elFinder command "submit". 
+ * Submit selected files XXX file?.
+ * Only for new api
+ *
+ * @author Mark J. Titorenko, <mark.titorenko@alces-software.com>
+ **/
+elFinder.prototype.commands.submit = function() {
+        var self   = this,
+                fm     = this.fm,
+                filter = function(hashes) {
+                        return $.map(self.files(hashes), function(f) { return f.mime == 'directory' ? null : f });
+                };
+        
+        this.alwaysEnabled = true;
+        
+        this.shortcuts = [{
+        }];
+        
+        this.getstate = function() {
+                var sel = this.fm.selectedFiles();
+
+                return sel.length == 1 && sel[0].phash && !sel[0].locked  ? 0 : -1;
+        }
+        
+        this.exec = function() {
+            var fm    = this.fm,
+            sel      = fm.selected(),
+            file     = fm.file(sel.shift()),
+            dfrd  = $.Deferred();
+                        
+            if (fm.oldAPI) {
+                fm.error('errCmdNoSupport');
+                return dfrd.reject();
+            }
+
+	    window.location = '/en/jobs/new?script=' + fm.path(file.hash);
+            return dfrd;
         }
 
 }
