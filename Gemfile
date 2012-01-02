@@ -1,17 +1,16 @@
 #==============================================================================
-# Copyright (C) 2007-2012 Stephen F Norledge & Alces Software Ltd.
+# Copyright (C) 2012 Stephen F Norledge & Alces Software Ltd.
 #
 # This file is part of elfinder-rails.
 #
 # Some rights reserved, see LICENSE.txt.
 #==============================================================================
-source 'http://rubygems.org'
+$: << File.expand_path("../vendor/alces/lib", __FILE__)
+require 'alces/ext/bundler/dsl_extensions'
+extend Alces::Ext::Bundler::DslExtensions
 
-RAILS_VERSION = '>= 3.1.0'
+source 'http://gems.alces-software.com'
+source "http://rubygems.org"
+gemspec
 
-gem 'activesupport',      RAILS_VERSION, :require => 'active_support'
-gem 'actionpack',         RAILS_VERSION, :require => 'action_pack'
-gem 'json'
-gem 'rack'
-
-gem 'arriba', :path => '../arriba'
+gem :local => 'arriba'
