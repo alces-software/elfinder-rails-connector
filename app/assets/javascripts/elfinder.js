@@ -16,8 +16,8 @@
  *= include elfinder/elFinder.resources
  *= include elfinder/jquery.dialogelfinder
  *= include elfinder/i18n/elfinder.en
- *= include elfinder_ui
- *= include elfinder_commands
+ *= include elfinder/ui
+ *= include elfinder/commands
  *= include fragments/elfinder_suffix
  *= include elfinder/patches
  */
