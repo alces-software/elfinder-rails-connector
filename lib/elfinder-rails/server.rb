@@ -46,7 +46,8 @@ module ElfinderRails
       
       def headers
         {
-          'Access-Control-Allow-Origin' => 'http://localhost:8080',
+          # XXX - this needs to be configurable
+          'Access-Control-Allow-Origin' => 'http://lvh.me:8080',
           'Content-Type' => 'application/json'
         }
       end
