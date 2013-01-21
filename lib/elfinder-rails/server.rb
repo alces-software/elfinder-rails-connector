@@ -10,9 +10,13 @@ require 'json'
 
 module ElfinderRails
   class Server
+    def initialize(opts = {})
+      @origins = opts[:origins] || '*'
+    end
+
     class << self
-      def run
-        Rack::Chunked.new(Rack::ContentLength.new(ElfinderRails::Server.new))
+      def run(opts = {})
+        Rack::Chunked.new(Rack::ContentLength.new(ElfinderRails::Server.new(opts)))
       end
     end
 
@@ -27,8 +31,7 @@ module ElfinderRails
         env['rack.session.options'][:skip] = true
         
         params = Rack::Request.new(env).params.symbolize_keys!
-        session_id = (session = env['rack.session']) && session['session_id']
-        ctx = Context.new(env,params,session_id)
+        ctx = Context.new(env,params)
         data = Arriba::execute(ElfinderRails.volumes(ctx),params)
         handle_data(env,data)
       rescue
@@ -46,8 +49,7 @@ module ElfinderRails
       
       def headers
         {
-          # XXX - this needs to be configurable
-          'Access-Control-Allow-Origin' => 'http://lvh.me:8080',
+          'Access-Control-Allow-Origin' => @origins,
           'Content-Type' => 'application/json'
         }
       end
