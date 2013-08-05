@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
   s.name = 'elfinder-rails'
   s.version = ElfinderRails::VERSION
   s.platform = Gem::Platform::RUBY
-  s.date = "2013-02-15"
+  s.date = "2013-08-05"
   s.authors = ['Mark J. Titorenko']
   s.email = 'mark.titorenko@alces-software.com'
   s.homepage = 'http://github.com/alces-software/elfinder-rails'
@@ -37,6 +37,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'bundler'
   s.add_development_dependency 'bueller', '0.0.9'
   s.add_development_dependency 'rake'
-  s.add_development_dependency 'rcov'
+  s.add_development_dependency 'simplecov'
 end
 
