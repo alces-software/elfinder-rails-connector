@@ -8,7 +8,7 @@
 require 'rack/request'
 require 'json'
 
-module ElfinderRails
+module ElfinderRailsConnector
   class Server
     def initialize(opts = {})
       @origins = opts[:origins] || '*'
@@ -16,7 +16,7 @@ module ElfinderRails
 
     class << self
       def run(opts = {})
-        Rack::Chunked.new(Rack::ContentLength.new(ElfinderRails::Server.new(opts)))
+        Rack::Chunked.new(Rack::ContentLength.new(ElfinderRailsConnector::Server.new(opts)))
       end
     end
 
@@ -32,7 +32,7 @@ module ElfinderRails
         
         params = Rack::Request.new(env).params.symbolize_keys!
         ctx = Context.new(env,params)
-        data = Arriba::execute(ElfinderRails.volumes(ctx),params)
+        data = Arriba::execute(ElfinderRailsConnector.volumes(ctx),params)
         handle_data(env,data)
       rescue
         begin
@@ -61,7 +61,7 @@ module ElfinderRails
         when Arriba::FileResponse
           h = headers.tap do |hash|
             hash.delete('Content-Type')
-            hash.merge!(ElfinderRails.file_headers(data,env))
+            hash.merge!(ElfinderRailsConnector.file_headers(data,env))
           end
           # convince rails middleware stack to get lost and leave our
           # streamable content as streamable content (no etag)

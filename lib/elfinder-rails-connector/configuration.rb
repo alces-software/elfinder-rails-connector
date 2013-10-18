@@ -7,7 +7,7 @@
 #==============================================================================
 require 'singleton'
 
-module ElfinderRails
+module ElfinderRailsConnector
   class Configuration
     include Singleton
 

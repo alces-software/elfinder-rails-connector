@@ -5,14 +5,8 @@
 #
 # Some rights reserved, see LICENSE.txt.
 #==============================================================================
-module ElfinderRails
+module ElfinderRailsConnector
   class Engine < Rails::Engine
-    engine_name :elfinder_rails
-
-    initializer "elfinder-rails.assets.precompile" do |app|
-      ['images/**/*.{png,gif}', 'sounds/**/*.{wav}'].each do |glob|
-        app.config.assets.precompile += Dir[Engine.root.join('vendor','assets',glob)]
-      end
-    end
+    engine_name :elfinder_rails_connector
   end
 end

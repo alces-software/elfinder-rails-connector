@@ -7,10 +7,10 @@
 #==============================================================================
 require 'rails'
 
-module ElfinderRails
-  require 'elfinder-rails/engine' if defined?(Rails)
-  autoload :Server, 'elfinder-rails/server'
-  autoload :Configuration, 'elfinder-rails/configuration'
+module ElfinderRailsConnector
+  require 'elfinder-rails-connector/engine' if defined?(Rails)
+  autoload :Server, 'elfinder-rails-connector/server'
+  autoload :Configuration, 'elfinder-rails-connector/configuration'
 
   class Context < Struct.new(:env,:params); end
 
@@ -29,8 +29,8 @@ module ElfinderRails
     end
 
     def volumes(ctx)
-      ElfinderRails::Configuration.eval_config(ctx)
-      ElfinderRails::Configuration.instance.volumes
+      ElfinderRailsConnector::Configuration.eval_config(ctx)
+      ElfinderRailsConnector::Configuration.instance.volumes
     end
   end
 end
