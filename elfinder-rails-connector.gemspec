@@ -1,16 +1,16 @@
 $:.push File.expand_path("../lib", __FILE__)
-require 'elfinder-rails/version'
+require 'elfinder-rails-connector/version'
 
 Gem::Specification.new do |s|
-  s.name = 'elfinder-rails'
-  s.version = ElfinderRails::VERSION
+  s.name = 'elfinder-rails-connector'
+  s.version = ElfinderRailsConnector::VERSION
   s.platform = Gem::Platform::RUBY
-  s.date = "2013-08-05"
+  s.date = "2013-10-18"
   s.authors = ['Mark J. Titorenko']
   s.email = 'mark.titorenko@alces-software.com'
   s.homepage = 'http://github.com/alces-software/elfinder-rails'
-  s.summary = %Q{elFinder web file manager for Ruby on Rails}
-  s.description = %Q{elFinder web file manager for Ruby on Rails}
+  s.summary = %Q{elFinder web file manager server connector for Ruby on Rails}
+  s.description = %Q{elFinder web file manager server connector for Ruby on Rails}
   s.extra_rdoc_files = [
     'LICENSE.txt',
     'README.mkd',
