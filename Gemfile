@@ -13,4 +13,4 @@ source 'http://gems.alces-software.com'
 source "http://rubygems.org"
 gemspec
 
-gem :local => 'arriba'
+gem                       'arriba', '~>  0.4.0', local: 'master'
