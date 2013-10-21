@@ -8,13 +8,13 @@
 class ElfinderController < ::ActionController::Base
   module Base
     def api
-      ctx = ElfinderRails::Context.new(request.env, params, session[:session_id])
-      data = Arriba.execute(ElfinderRails.volumes(ctx),params)
+      ctx = ElfinderRailsConnector::Context.new(request.env, params, session[:session_id])
+      data = Arriba.execute(ElfinderRailsConnector.volumes(ctx),params)
       case data
       when Hash
         render :json => data
       when Arriba::FileResponse
-        ElfinderRails.file_headers(data,request.env).each do |k,v|
+        ElfinderRailsConnector.file_headers(data,request.env).each do |k,v|
           headers[k] = v
         end
         render :text => data.io.read, :content_type => data.mimetype
