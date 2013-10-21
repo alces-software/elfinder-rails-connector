@@ -18,6 +18,14 @@ module Alces
           ENV['ALCES_DEV'].nil? && config['development'] == true
         end
 
+        def remote?
+          config['remote'] == true
+        end
+
+        def git_root
+          config['git_root'] || "http://grover.alces-software.com/git"
+        end
+
         private
         def load_config
           f = config_path
@@ -26,7 +34,9 @@ module Alces
             YAML::load_file(f)
           else
             { 
-              'development' => false
+              'development' => false,
+              'remote' => false,
+              'git_root' => 'http://grover.alces-software.com/git'
             }
           end
         end
