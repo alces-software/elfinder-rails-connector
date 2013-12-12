@@ -5,7 +5,6 @@
 #
 # Some rights reserved, see LICENSE.txt.
 #==============================================================================
-require 'rails'
 
 module ElfinderRailsConnector
   require 'elfinder-rails-connector/engine' if defined?(Rails)
