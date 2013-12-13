@@ -7,17 +7,21 @@
 #==============================================================================
 require 'singleton'
 
+require 'active_support/core_ext/string/inflections'
+
 module ElfinderRailsConnector
   class Configuration
     include Singleton
 
     module ClassMethods
+      attr_writer :config_file, :environment
+
       def config_file
-        Rails.root.join('config','volumes.rb')
+        @config_file ||= Rails.root.join('config','volumes.rb')
       end
 
       def load_config
-        if Rails.env.production?
+        if production?
           @config ||= IO.read(config_file)
         else
           @config = IO.read(config_file)
@@ -31,6 +35,14 @@ module ElfinderRailsConnector
       def configure(&block)
         instance.volumes.clear
         block.call(instance)
+      end
+
+      def production?
+        if @environment.nil?
+          Rails.env.production?
+        else
+          @environment == :production
+        end
       end
     end
 

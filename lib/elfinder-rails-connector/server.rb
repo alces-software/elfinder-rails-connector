@@ -7,10 +7,13 @@
 #==============================================================================
 require 'rack/request'
 require 'json'
+require 'active_support/core_ext/hash/indifferent_access'
 
 module ElfinderRailsConnector
   class Server
     def initialize(opts = {})
+      Configuration.config_file = opts[:config_file]
+      Configuration.environment = opts[:environment]
       @origins = opts[:origins] || '*'
     end
 
