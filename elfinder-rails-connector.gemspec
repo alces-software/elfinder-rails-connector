@@ -9,8 +9,8 @@ Gem::Specification.new do |s|
   s.authors = ['Mark J. Titorenko']
   s.email = 'mark.titorenko@alces-software.com'
   s.homepage = 'http://github.com/alces-software/elfinder-rails'
-  s.summary = %Q{elFinder web file manager server connector for Ruby on Rails}
-  s.description = %Q{elFinder web file manager server connector for Ruby on Rails}
+  s.summary = %Q{elFinder web file manager server connector for Rack and Ruby on Rails}
+  s.description = %Q{elFinder web file manager server connector Rack and Ruby on Rails}
   s.extra_rdoc_files = [
     'LICENSE.txt',
     'README.mkd',

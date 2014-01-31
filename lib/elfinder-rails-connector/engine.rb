@@ -5,6 +5,8 @@
 #
 # Some rights reserved, see LICENSE.txt.
 #==============================================================================
+require 'rails'
+
 module ElfinderRailsConnector
   class Engine < Rails::Engine
     engine_name :elfinder_rails_connector
