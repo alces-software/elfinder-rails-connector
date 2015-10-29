@@ -6,5 +6,5 @@
 # Some rights reserved, see LICENSE.txt.
 #==============================================================================
 module ElfinderRailsConnector
-  VERSION = "0.3.0"
+  VERSION = "0.4.0.dev"
 end
