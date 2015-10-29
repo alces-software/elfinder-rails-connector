@@ -8,7 +8,7 @@
 class ElfinderController < ::ActionController::Base
   module Base
     def api
-      ctx = ElfinderRailsConnector::Context.new(request.env, params, session[:session_id])
+      ctx = ElfinderRailsConnector::Context.new(request.env, params)
       data = Arriba.execute(ElfinderRailsConnector.volumes(ctx),params)
       case data
       when Hash
